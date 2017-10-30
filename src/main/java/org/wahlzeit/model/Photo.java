@@ -66,7 +66,7 @@ public class Photo extends DataObject {
 	public static final int MAX_PHOTO_HEIGHT = 600;
 	public static final int MAX_THUMB_PHOTO_WIDTH = 105;
 	public static final int MAX_THUMB_PHOTO_HEIGHT = 150;
-
+	
 	protected PhotoId id = null;
 	
 	/**
@@ -94,6 +94,11 @@ public class Photo extends DataObject {
 	protected int width;
 	protected int height;
 	protected PhotoSize maxPhotoSize = PhotoSize.MEDIUM; // derived
+
+	/**
+	 *
+	 */
+	protected Location location;
 	
 	/**
 	 *
@@ -303,6 +308,21 @@ public class Photo extends DataObject {
 		maxPhotoSize = PhotoSize.getFromWidthHeight(width, height);
 
 		incWriteCount();
+	}
+	
+	/**
+	 * @methodtype get
+	 */
+	public Location getLocation() {
+		
+		return location;
+	}
+	
+	/**
+	 * @methodtype set
+	 */
+	public void setLocation(Location newLocation) {
+		location = newLocation;
 	}
 
 	/**
