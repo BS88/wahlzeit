@@ -30,8 +30,8 @@ package org.wahlzeit.model;
 public class Location
 {
 	
-	private Coordinate mCoordinate 	= null;
-	private String mLocationName 	= null;
+	private Coordinate 	mCoordinate 	= null;
+	private String		mLocationName 	= null;
 	
 	/**
 	 *

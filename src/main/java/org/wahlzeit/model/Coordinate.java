@@ -88,7 +88,7 @@ public class Coordinate
 		return m_zCoordinate;
 	}
 	
-	//Getter and Setter--------------------------------------------------------
+	//Setter--------------------------------------------------------
 	
 	
 	

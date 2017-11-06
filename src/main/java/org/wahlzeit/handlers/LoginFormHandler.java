@@ -23,12 +23,14 @@ public class LoginFormHandler extends AbstractWebFormHandler {
 	private static final Logger log = Logger.getLogger(LoginFormHandler.class.getName());
 
 
-	public LoginFormHandler() {
+	public LoginFormHandler()
+	{
 		initialize(PartUtil.LOGIN_FORM_FILE, AccessRights.GUEST);
 	}
 
 	@Override
-	protected void doMakeWebPart(UserSession us, WebPart part) {
+	protected void doMakeWebPart(UserSession us, WebPart part)
+	{
 		// do nothing as there is no page that should be displayed
 		log.info("doMakeWebPart");
 	}
@@ -37,7 +39,8 @@ public class LoginFormHandler extends AbstractWebFormHandler {
 	 * Called when a new user logged in. Make sure that a Wahlzeit user exist.
 	 */
 	@Override
-	protected String doHandleGet(UserSession us, String link, Map args) {
+	protected String doHandleGet(UserSession us, String link, Map args)
+	{
 		log.info("Link: " + link);
 
 		UserService userService = UserServiceFactory.getUserService();
