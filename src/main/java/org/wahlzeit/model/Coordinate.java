@@ -23,6 +23,7 @@
 package org.wahlzeit.model;
 
 import java.math.*;
+import java.util.Objects;
 
 /**
  * The Coordinate Class is representing an 3-dimensional Vector with Cartesian 
@@ -124,6 +125,12 @@ public class Coordinate
 			return isEqual((Coordinate)o);
 		
 		return false;
+	}
+	
+	@Override
+	public int hashCode() 
+	{
+		return 0;
 	}
 	
 	/**
