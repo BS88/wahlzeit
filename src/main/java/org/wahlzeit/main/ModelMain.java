@@ -20,6 +20,8 @@
 
 package org.wahlzeit.main;
 
+import org.wahlzeit.model.FootballPhotoFactory;
+import org.wahlzeit.model.FootballPhotoManager;
 import org.wahlzeit.model.GlobalsManager;
 import org.wahlzeit.model.PhotoCaseManager;
 import org.wahlzeit.model.PhotoFactory;
@@ -29,6 +31,7 @@ import org.wahlzeit.model.UserManager;
 import org.wahlzeit.model.persistence.DatastoreAdapter;
 import org.wahlzeit.model.persistence.ImageStorage;
 import org.wahlzeit.services.LogBuilder;
+ 
 
 import java.io.File;
 import java.io.FileFilter;
@@ -61,9 +64,15 @@ public abstract class ModelMain extends AbstractMain {
 
 		log.config(LogBuilder.createSystemMessage().addAction("init PhotoFactory").toString());
 		PhotoFactory.initialize();
+		
+		log.config(LogBuilder.createSystemMessage().addAction("Init FootballFactory").toString());
+		FootballPhotoFactory.initialize();
 
 		log.config(LogBuilder.createSystemMessage().addAction("load Photos").toString());
 		PhotoManager.getInstance().init();
+		
+		log.config(LogBuilder.createSystemMessage().addAction("load FootballPhotos").toString());
+		FootballPhotoManager.getInstance().init();
 	}
 
 

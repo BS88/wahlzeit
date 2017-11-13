@@ -39,10 +39,10 @@ import org.wahlzeit.utils.UtilityTestSuite;
 	
 	HandlersTestSuite.class,
 	ModelTestSuite.class, 
-	PersistanceTestSuite.class, 
+	//PersistanceTestSuite.class, 
 	ServicesTestSuite.class, 
 	ServiceMailingTestSuite.class, 
-	TestEnvironmnentTestSuite.class,
+	//TestEnvironmnentTestSuite.class,
 	UtilityTestSuite.class
 })
 

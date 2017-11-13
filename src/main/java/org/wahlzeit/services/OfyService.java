@@ -12,6 +12,7 @@ import org.wahlzeit.model.Photo;
 import org.wahlzeit.model.PhotoCase;
 import org.wahlzeit.model.Tag;
 import org.wahlzeit.model.User;
+import org.wahlzeit.model.FootballPhoto;
 import org.wahlzeit.model.persistence.DatastoreAdapter.ImageWrapper;
 
 /**
@@ -35,6 +36,7 @@ public class OfyService {
 		factory().register(Guest.class);
 		factory().register(PhotoCase.class);
 		factory().register(ImageWrapper.class);
+		factory().register(FootballPhoto.class);
 	}
 
 	public static Objectify ofy() {

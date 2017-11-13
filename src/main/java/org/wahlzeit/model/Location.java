@@ -31,7 +31,7 @@ public class Location
 {
 	
 	private Coordinate 	mCoordinate 	= null;
-	private String		mLocationName 	= null;
+	private String			mLocationName 	= null;
 	
 	/**
 	 *
