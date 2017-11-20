@@ -35,7 +35,7 @@ public class LocationTest {
 	@Test
 	public void testLocationCreate() {
 		
-		Location tmpOne	= new Location(new Coordinate());
+		Location tmpOne	= new Location(new SphericCoordinate());
 		Location tmpTwo = new Location();
 		
 		Location _result 	= new Location();
@@ -45,9 +45,8 @@ public class LocationTest {
 		
 	}
 	@Test
-	public void testLocationName() 
-	{
-		Location tmpOne	= new Location(new Coordinate(), "HansMeiser");
+	public void testLocationName() {
+		Location tmpOne	= new Location(new CartesianCoordinate(), "HansMeiser");
 		Location tmpTwo = new Location();
 		
 		Location _result 	= new Location();
@@ -61,12 +60,11 @@ public class LocationTest {
 	
 	}
 	@Test
-	public void testLocationCoordinates() 
-	{
-		Location tmpOne	= new Location(new Coordinate(1.0,0,0), "HansMeiser");
+	public void testLocationCoordinates() {
+		Location tmpOne	= new Location(new CartesianCoordinate(1.0,0,0), "HansMeiser");
 		Location tmpTwo = new Location();
 		
-		Coordinate _result 	= new Coordinate(1.0, 0,0);
+		Coordinate _result 	= new CartesianCoordinate(1.0, 0,0);
 		tmpTwo.setCoordinate(_result);
 		assertEquals(_result, tmpOne.getCoordinate());
 		assertEquals(_result, tmpTwo.getCoordinate());

@@ -12,6 +12,7 @@ public class FootballPhotoFactoryTest
 	{
 		FootballPhotoFactory factory = FootballPhotoFactory.getInstance();
 		assertNotNull(factory);
+		
 	}
 
 }

@@ -25,30 +25,26 @@ package org.wahlzeit.model;
 
 
 /**
- * The Location describes the Area based on Cartesian Coordinates where the Photo was taken. 
+ * The Location describes the Area based on Cartesian Coordinates or Spheric Coordinates 
+ *  where the Photo was taken. 
  */
 public class Location
 {
 	
-	private Coordinate 	mCoordinate 	= null;
-	private String			mLocationName 	= null;
+	private Coordinate 		m_coordinate 	= null;
+	private String			m_locationName 	= null;
 	
 	/**
 	 *
 	 */
-	public Location() {
-		mCoordinate = new Coordinate();
-	}
+	public Location() { }
 	
 	/**
 	 *
 	 */
 	public Location(Coordinate coordinate) {
 		
-		if (null == coordinate)
-			mCoordinate = new Coordinate();
-		else 
-			mCoordinate = coordinate;
+		m_coordinate = coordinate;
 	}
 	/**
 	 *
@@ -58,7 +54,7 @@ public class Location
 		this(coordinate);
 		
 		if (null != locationName || locationName != " ")
-			mLocationName = locationName;
+			m_locationName = locationName;
 	}
 	
 	// Getter and Setter ------------------------------------------------------
@@ -68,7 +64,7 @@ public class Location
 	 */
 	
 	public Coordinate getCoordinate() {
-		return mCoordinate;
+		return m_coordinate;
 	}
 
 	/**
@@ -76,20 +72,20 @@ public class Location
 	 */
 
 	public String getLocationName() {
-		return mLocationName;
+		return m_locationName;
 	}
 	
 	/**
 	 * @methodtype set
 	 */
 	public void setCoordinate (Coordinate coordinate) {
-		mCoordinate = coordinate;
+		m_coordinate = coordinate;
 	}
 	
 	/**
 	 * @methodtype set
 	 */
 	public void setLocationName(String locationName) {
-		mLocationName = locationName;
+		m_locationName = locationName;
 	}
 }

@@ -29,7 +29,8 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({
 	
 	AccessRightsTest.class, 
-	CoordinateTest.class, 
+	CartesianCoordinateTest.class,
+	SphericCoordinateTest.class,
 	FlagReasonTest.class,
 	GenderTest.class,
 	LocationTest.class,
