@@ -21,7 +21,6 @@
 
 package org.wahlzeit.model;
 import static org.junit.Assert.*;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class SphericCoordinateTest
@@ -62,7 +61,7 @@ public class SphericCoordinateTest
 			
 			assertEquals(40, one.getLatitude(), 1E-7);
 			assertEquals(-100, two.getLongtitude(), 1E-7);
-			assertFalse(11 == one.getRadiu());
+			assertFalse(11 == one.getRadius());
 
 		}
 		@Test
@@ -79,8 +78,7 @@ public class SphericCoordinateTest
 			one.setRadius(4.78);
 		
 			assertEquals(Math.sqrt(Math.pow(-2, 2)+Math.pow(4,2)+Math.pow(1.7, 2)),
-					one.getDistance(new SphericCoordinate()),1E-1);
-			
+					one.getDistance(new SphericCoordinate()),1E-1);	
 		}
 	}
 

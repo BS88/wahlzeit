@@ -28,34 +28,35 @@ package org.wahlzeit.model;
  * coordinates.
  */
 public interface Coordinate
-{
-	/**
-	 * Highest Error Barrier Epsilon.
-	 */
-	public static final double EPSILON = 1.0E-7;
-	
+{	
 	/**
 	 * @methodType conversion
+	 * Converts the given Coordinate to Cartesian Coordinates
 	 */
 	public CartesianCoordinate asCartesianCoordinates();
 	/**
-	 * @methodType conversion
+	 * @methodType get
+	 * Returns the distance Cartesian between two Coordinates
 	 */
 	public double getCartesianDistance(Coordinate other);
 	/**
 	 * @methodType conversion
+	 * Converts the given Coordinate to Spheric Coordinates
 	 */
 	public SphericCoordinate asSphericCoordinate ();
 	/**
-	 * @methodType conversion.
+	 * @methodType get
+	 * Returns the Spharic distance between two Coordinates
 	 */
 	public double getSpharicDistance (Coordinate other);
 	/**
-	 * @methodType conversion.
+	 * @methodType get
+	 * Returns the distance between two Coordinates
 	 */
 	public double getDistance(Coordinate other);
 	/**
-	 * @methodType conversion
+	 * @methodType compare
+	 * Compares two Coordinates if they are pointing the same Location 
 	 */
 	public boolean isEqual(Coordinate other);
 	

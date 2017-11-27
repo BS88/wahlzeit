@@ -22,10 +22,16 @@
 
 package org.wahlzeit.model;
 
+/**
+ * The SphericCoordinate Class represents a  specific implementation of Coordinates.
+ * inspired by: // source https://de.wikipedia.org/wiki/Kugelkoordinaten
+ */
 
-public class SphericCoordinate implements Coordinate
+public class SphericCoordinate extends AbstractCoordinate
 {
-	// source https://de.wikipedia.org/wiki/Kugelkoordinaten
+	
+	
+//-------------------------Member----------------------------------------------	
 	
 	//Range from -90° to 90 °
 	private double m_latitude 	= 0.0;
@@ -35,6 +41,8 @@ public class SphericCoordinate implements Coordinate
 	
 	// Range greater than Zero
 	private double m_radius 	= 0.0;
+	
+//-------------------------Ctors-----------------------------------------------
 	
 	
 	public SphericCoordinate() {}
@@ -54,6 +62,7 @@ public class SphericCoordinate implements Coordinate
 		m_longtitude = longtitude;
 		m_radius 	 = radius;
 	}
+	
 	public SphericCoordinate(Coordinate other) 
 	{
 		if (null == other)
@@ -69,16 +78,17 @@ public class SphericCoordinate implements Coordinate
 		}
 		else 
 		{
-			m_latitude = other.asSphericCoordinate().getLatitude();
-			m_longtitude = other.asSphericCoordinate().getLongtitude();
-			m_radius = other.asSphericCoordinate().getRadiu();
-		} 
-			
-		
+			m_latitude	 	= other.asSphericCoordinate().getLatitude();
+			m_longtitude	= other.asSphericCoordinate().getLongtitude();
+			m_radius 		= other.asSphericCoordinate().getRadius();
+		} 	
 	}
-	/*-------------------------Getter----------------------------------------*/
+//-------------------------Getter----------------------------------------------
 
-	public double getRadiu() {
+	/**
+	 * @methodtype get
+	 */	
+	public double getRadius() {
 		
 		return m_radius;
 	}
@@ -94,17 +104,13 @@ public class SphericCoordinate implements Coordinate
 	}
 	
 	/*-------------------------Setter----------------------------------------*/
-	
-	
-	
+
 	public void setRadius(double radius) {
 		
 		if (radius < 0)
 			throw new IllegalArgumentException("Error. Range of Radius must be greater than Zero");
 		m_radius = radius;
 	}
-
-
 
 	public void setLatitude(double latitude) {
 		
@@ -122,28 +128,16 @@ public class SphericCoordinate implements Coordinate
 	}
 
 	//-------------------------public functions------------------------------------------------
-	
-	public boolean equals(Object o) 
-	{
-		if (this == o)
-			return true;
-		if (null == o)
-			return false;
-		
-		if (o instanceof SphericCoordinate || o instanceof CartesianCoordinate )
-			return this.asCartesianCoordinates().isEqual((Coordinate)o);
-		
-		return false;
-	}
-	
-	
-	
+
+	/**
+	 * Inherited  by AbstractCoordinate
+	 * 
+	 */
 	@Override
-	
 	public CartesianCoordinate asCartesianCoordinates() {
 		
-		double _latRad  = Math.toDegrees(m_latitude);
-		double _longRad = Math.toDegrees(m_longtitude);
+		double _latRad  = Math.toRadians(m_latitude);
+		double _longRad = Math.toRadians(m_longtitude);
 		
 		double _xCoord = m_radius * Math.sin(_latRad) * Math.cos(_longRad);
 		double _yCoord = m_radius * Math.sin(_latRad) *Math.sin(_longRad);
@@ -152,17 +146,31 @@ public class SphericCoordinate implements Coordinate
 		return new CartesianCoordinate(_xCoord, _yCoord, _zCoord);
 		
 	}
-
+	
+	/**
+	 * Inherited  by AbstractCoordinate
+	 * 
+	 */
 	@Override
 	public double getCartesianDistance(Coordinate other) {
 		return this.asCartesianCoordinates().getCartesianDistance(other);
 	}
-
+	
+	/**
+	 * Inherited  by AbstractCoordinate
+	 * 
+	 */
 	@Override
 	public SphericCoordinate asSphericCoordinate() {
-		return this;
+		
+		SphericCoordinate _result = new SphericCoordinate(this);
+		return _result;
 	}
-
+	
+	/**
+	 * Inherited  by AbstractCoordinate
+	 * 
+	 */
 	@Override
 	public double getSpharicDistance(Coordinate other) {
 		
@@ -171,23 +179,4 @@ public class SphericCoordinate implements Coordinate
 		
 		return this.asCartesianCoordinates().getCartesianDistance(other);
 	}
-
-	@Override
-	public double getDistance(Coordinate other)
-	{
-		if (null == other )
-			throw new IllegalArgumentException("The given Parameter Coordinate must be not null!");
-		
-		return this.asCartesianCoordinates().getCartesianDistance(other);
-	}
-
-	@Override
-	public boolean isEqual(Coordinate other)
-	{
-		if (null == other )
-			throw new IllegalArgumentException("The given Parameter Coordinate must be not null!");
-		
-		return this.asCartesianCoordinates().isEqual(other);
-	}
-
 }

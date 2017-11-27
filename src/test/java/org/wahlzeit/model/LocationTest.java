@@ -68,9 +68,7 @@ public class LocationTest {
 		tmpTwo.setCoordinate(_result);
 		assertEquals(_result, tmpOne.getCoordinate());
 		assertEquals(_result, tmpTwo.getCoordinate());
-
 	
-		
 	}	
 
 }

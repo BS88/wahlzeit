@@ -107,27 +107,4 @@ public class CartesianCoordinateTest {
 
 	}
 	
-	@Test
-	public void testConversionToSphericCoordinates() {
-		
-		CartesianCoordinate one 	= new CartesianCoordinate();
-		CartesianCoordinate two	  	= new CartesianCoordinate(1,1,1);
-		//CartesianCoordinate three 	= new CartesianCoordinate();
-		
-		SphericCoordinate test_one = new SphericCoordinate(54.73561031738112348,45.000000000111633369,
-				1.7320508075688772);
-		
-		SphericCoordinate test_two = new SphericCoordinate(0,0,0);
-		
-		
-		assertEquals(two.asSphericCoordinate().getRadiu(), test_one.getRadiu(),1E-5);
-		assertEquals(two.asSphericCoordinate().getLongtitude(), test_one.getLongtitude(),1E-5);
-		assertEquals(two.asSphericCoordinate().getLatitude(), test_one.getLatitude(), 1E-5);
-		
-		assertEquals(one.asSphericCoordinate().getRadiu(), test_two.getRadiu(),1E-5);
-		assertEquals(one.asSphericCoordinate().getLongtitude(), test_two.getLongtitude(),1E-5);
-		assertEquals(one.asSphericCoordinate().getLatitude(), test_two.getLatitude(), 1E-5);
-	
-	}
-	
 }

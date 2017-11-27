@@ -25,13 +25,13 @@ package org.wahlzeit.model;
  * The Cartesian Coordinate Class is representing an 3-dimensional Vector for geographical 
  *  
  */
-public class CartesianCoordinate implements Coordinate
+public class CartesianCoordinate extends AbstractCoordinate
 {
 		
 	/*-------------------------Member----------------------------------------*/
-	private double m_xCoordinate ;
-	private double m_yCoordinate ;
-	private double m_zCoordinate ;
+	private double m_xCoordinate = 0d;
+	private double m_yCoordinate = 0d;
+	private double m_zCoordinate = 0d;
 	
 	/*-------------------------Ctors-----------------------------------------*/
 	
@@ -41,11 +41,11 @@ public class CartesianCoordinate implements Coordinate
 	}
 	
 	//specified with given Coordinates
-	public CartesianCoordinate (double xCoordinate, double yCoordinate, double zCoordinate) {
+	public CartesianCoordinate (double x, double y, double z) {
 		
-		m_xCoordinate 	= xCoordinate;
-		m_yCoordinate 	= yCoordinate;
-		m_zCoordinate   = zCoordinate;
+		m_xCoordinate 	= x;
+		m_yCoordinate 	= y;
+		m_zCoordinate   = z;
 	}
 	
 	public CartesianCoordinate (CartesianCoordinate other) {
@@ -77,20 +77,15 @@ public class CartesianCoordinate implements Coordinate
 	
 	/*-------------------------Setter----------------------------------------*/
 	
-	
-	
 	public void setXcoordinate(double xCoordinate) {
 		
 		this.m_xCoordinate = xCoordinate;
 	}
 
-
-
 	public void setYcoordinate(double yCoordinate) {
 		
 		this.m_yCoordinate = yCoordinate;
 	}
-
 
 	public void setZcoordinate(double zCoordinate) {
 		
@@ -99,74 +94,46 @@ public class CartesianCoordinate implements Coordinate
 	
 	//-------------------------public functions------------------------------------------------
 	
+	/**
+	 * Inherited  by AbstractCoordinate
+	 * 
+	 */
 	@Override
-	public boolean equals(Object o) 
+	public CartesianCoordinate asCartesianCoordinates()
 	{
-		if (this == o)
-			return true;
-		if (null == o)
-			return false;
-		
-		if (o instanceof CartesianCoordinate)
-			return isEqual((CartesianCoordinate)o);
-		
-		return false;
-	}
-	
-	@Override
-	public int hashCode() 
-	{
-		return 0;
+		CartesianCoordinate _result = new CartesianCoordinate(this);
+		return _result;
 	}
 	
 	/**
+	 * Inherited  by AbstractCoordinate
+	 *	
 	 * Calculates the Euclidean distance between this Coordinate and one given Coordinate.  
 	 * 
 	 *  f(x) = sqrt(x² + y² + z²)
 	 * @return Euclidean Distance between two Coordinates
 	 * @param other -> other Coordinate
 	 * 
-	 */	
-	public double getDistance(CartesianCoordinate other) {
-		if (this == other)
-			return 0.0;
-		
-		CartesianCoordinate tmp = coordinateSubstraktion(this, other);
-		
-		return Math.sqrt(Math.pow(tmp.getXcoordinate(), 2) + 
-						 Math.pow(tmp.getYcoordinate(), 2) + 
-						 Math.pow(tmp.getZcoordinate(), 2));
-						
-	}
-	/**
-	 *
-	 */
-	@Override
-	public CartesianCoordinate asCartesianCoordinates()
-	{
-		return this;
-	}
-	
-	/**
-	 *
-	 */
+	 */ 
 	@Override
 	public double getCartesianDistance(Coordinate other)
 	{
 		if (null == other)
-			return 0.0;
-
-		return this.getDistance(other.asCartesianCoordinates());		
+			throw new IllegalArgumentException("Coordinate must not be null!");
+		
+		CartesianCoordinate tmp = coordinateSubstraction(this, other.asCartesianCoordinates());
+		return Math.sqrt(Math.pow(tmp.getXcoordinate(), 2) + 
+						 Math.pow(tmp.getYcoordinate(), 2) + 
+						 Math.pow(tmp.getZcoordinate(), 2));
+		
 	}
-	
 	/**
-	 *
+	 * Inherited  by AbstractCoordinate
+	 * 
 	 */
 	@Override
 	public SphericCoordinate asSphericCoordinate() {
-		
-		
-		
+
 		double _radius = Math.sqrt(m_xCoordinate * m_xCoordinate + 
 					m_yCoordinate * m_yCoordinate + m_zCoordinate *m_zCoordinate );
 		
@@ -183,56 +150,21 @@ public class CartesianCoordinate implements Coordinate
 		return new SphericCoordinate(_rho, _phi, _radius);
 	}
 	/**
-	 *
+	 * Inherited  by AbstractCoordinate
+	 * 
 	 */
 	@Override
 	public double getSpharicDistance(Coordinate other) {
 		
 		return this.asSphericCoordinate().getDistance(other);
 	}
-	/**
-	 *
-	 */
-	@Override
-	public double getDistance(Coordinate other) {
-		
-		return this.getCartesianDistance(other);
-	}
-	/**
-	 *
-	 */
-	@Override
-	public boolean isEqual(Coordinate other)
-	{
-		if (null == other)
-			return false;
-		
-		return isEqual(other.asCartesianCoordinates());
-		
-	}
-//-------------------------private helper functions----------------------------------------*/	
 	
+//-------------------------private helper functions----------------------------------------*/		
 	/**
+	 *@method 
 	 *
 	 */
-	
-	private boolean isEqual(CartesianCoordinate other) {
-		CartesianCoordinate diff = coordinateSubstraktion(this, other);
-		
-		if (Math.abs(diff.getXcoordinate()) > EPSILON)
-			return false;
-		if (Math.abs(diff.getYcoordinate()) > EPSILON)
-			return false; 
-		if (Math.abs(diff.getZcoordinate()) > EPSILON)
-			return false;
-		
-		return true;
-	}
-	
-	/**
-	 *
-	 */
-	private CartesianCoordinate coordinateSubstraktion(CartesianCoordinate a, CartesianCoordinate b ) {
+	private CartesianCoordinate coordinateSubstraction(CartesianCoordinate a, CartesianCoordinate b ) {
 		
 		double x_diff = a.getXcoordinate()- b.getXcoordinate();
 		double y_diff = a.getYcoordinate()- b.getYcoordinate();

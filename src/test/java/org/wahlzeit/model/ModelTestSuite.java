@@ -37,7 +37,8 @@ import org.junit.runners.Suite.SuiteClasses;
 	PhotoFilterTest.class, 
 	TagsTest.class, 
 	UserStatusTest.class,
-	ValueTest.class	
+	ValueTest.class,
+	CoordinateTransformationTest.class
 })
 
 /**
