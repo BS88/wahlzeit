@@ -45,28 +45,27 @@ public class SphericCoordinate extends AbstractCoordinate
 //-------------------------Ctors-----------------------------------------------
 	
 	
-	public SphericCoordinate() {}
+	public SphericCoordinate() {
+		
+		assertClassInvariants();
+	}
 	
-	public SphericCoordinate(double latitude, double longtitude, double radius)
-	{
-		if (latitude < -90.0  || latitude > 90.0)
-			throw new IllegalArgumentException("Error. Range of Latitude is -90° to 90°");
+	public SphericCoordinate(double latitude, double longtitude, double radius) {
 		
-		if (longtitude < -180 || longtitude > 180)
-			throw new IllegalArgumentException("Error. Range of Longtitude is -180° to +180°");
+		assertLatitudeInRange(latitude);
+		assertLongtitudeInRange(longtitude);
+		assertRadiusGreaterZero(radius);
 		
-		if (radius < 0)
-			throw new IllegalArgumentException("Error. Range of Radiu is greater than Zero");
-
 		m_latitude 	 = latitude;	
 		m_longtitude = longtitude;
 		m_radius 	 = radius;
+		
+		assertClassInvariants();
 	}
 	
-	public SphericCoordinate(Coordinate other) 
-	{
-		if (null == other)
-			throw new IllegalArgumentException("Error. Given coordinate must not be null");
+	public SphericCoordinate(Coordinate other) {
+		
+		assertIsNonNullObject(other);
 		
 		if (other instanceof SphericCoordinate)
 		{
@@ -81,7 +80,8 @@ public class SphericCoordinate extends AbstractCoordinate
 			m_latitude	 	= other.asSphericCoordinate().getLatitude();
 			m_longtitude	= other.asSphericCoordinate().getLongtitude();
 			m_radius 		= other.asSphericCoordinate().getRadius();
-		} 	
+		}
+		assertClassInvariants();
 	}
 //-------------------------Getter----------------------------------------------
 
@@ -107,23 +107,20 @@ public class SphericCoordinate extends AbstractCoordinate
 
 	public void setRadius(double radius) {
 		
-		if (radius < 0)
-			throw new IllegalArgumentException("Error. Range of Radius must be greater than Zero");
+		assertRadiusGreaterZero(radius);	
 		m_radius = radius;
 	}
 
 	public void setLatitude(double latitude) {
 		
-		if (latitude < -90.0  || latitude > 90.0)
-			throw new IllegalArgumentException("Error. Range of Latitude is -90° to 90°");
+		assertLatitudeInRange(latitude);
 		m_latitude = latitude;
 	}
 
 
 	public void setLongtitude(double longtitude) {
-		
-		if (longtitude < -180 || longtitude > 180)
-			throw new IllegalArgumentException("Error. Range of Longtitude is -180° to +180°");
+	
+		assertLongtitudeInRange(longtitude);
 		m_longtitude = longtitude;
 	}
 
@@ -136,12 +133,14 @@ public class SphericCoordinate extends AbstractCoordinate
 	@Override
 	public CartesianCoordinate asCartesianCoordinates() {
 		
+		assertClassInvariants();
 		double _latRad  = Math.toRadians(m_latitude);
 		double _longRad = Math.toRadians(m_longtitude);
 		
 		double _xCoord = m_radius * Math.sin(_latRad) * Math.cos(_longRad);
 		double _yCoord = m_radius * Math.sin(_latRad) *Math.sin(_longRad);
 		double _zCoord = m_radius * Math.cos(_latRad);
+		assertClassInvariants();
 		
 		return new CartesianCoordinate(_xCoord, _yCoord, _zCoord);
 		
@@ -153,6 +152,7 @@ public class SphericCoordinate extends AbstractCoordinate
 	 */
 	@Override
 	public double getCartesianDistance(Coordinate other) {
+		assertIsNonNullObject(other);
 		return this.asCartesianCoordinates().getCartesianDistance(other);
 	}
 	
@@ -161,8 +161,7 @@ public class SphericCoordinate extends AbstractCoordinate
 	 * 
 	 */
 	@Override
-	public SphericCoordinate asSphericCoordinate() {
-		
+	public SphericCoordinate asSphericCoordinate() {	
 		SphericCoordinate _result = new SphericCoordinate(this);
 		return _result;
 	}
@@ -172,11 +171,36 @@ public class SphericCoordinate extends AbstractCoordinate
 	 * 
 	 */
 	@Override
-	public double getSpharicDistance(Coordinate other) {
+	public double getSphericDistance(Coordinate other) {
 		
-		if (null == other )
-			throw new IllegalArgumentException("The given Parameter Coordinate must be not null!");
+		assertIsNonNullObject(other);
 		
 		return this.asCartesianCoordinates().getCartesianDistance(other);
+	}
+	//-------------------------Assertion Methods-------------------------------
+	
+	private void assertClassInvariants() {
+		assertLatitudeInRange(m_latitude);
+		assertLongtitudeInRange(m_longtitude);
+		assertRadiusGreaterZero(m_radius);
+	}
+	private void assertRadiusGreaterZero(double radius) {
+		assertIsNonNullObject(radius);
+		if (radius < 0)
+			throw new IllegalStateException("Radius of an Spheric Coordinate can not be negative");
+	}
+	
+	private void assertLatitudeInRange(double latitude) {
+		assertIsNonNullObject(latitude);
+		if (latitude < -90.0  || latitude > 90.0)
+			throw new IllegalStateException("Latitude of an Spheric Coordinate "
+					+ "must be within -90 ° to 90°.");
+	}
+	
+	private void assertLongtitudeInRange(double longtitude) {
+		assertIsNonNullObject(longtitude);
+		if(m_longtitude < -180 || m_longtitude > 180)
+			throw new IllegalStateException("Longtitude of an Spheric Coordinate "
+					+ "must be within -180 ° to 180°.");
 	}
 }

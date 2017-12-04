@@ -48,7 +48,7 @@ public interface Coordinate
 	 * @methodType get
 	 * Returns the Spharic distance between two Coordinates
 	 */
-	public double getSpharicDistance (Coordinate other);
+	public double getSphericDistance (Coordinate other);
 	/**
 	 * @methodType get
 	 * Returns the distance between two Coordinates

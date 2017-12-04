@@ -50,8 +50,7 @@ public class CartesianCoordinate extends AbstractCoordinate
 	
 	public CartesianCoordinate (CartesianCoordinate other) {
 		
-		if (null == other)
-			return;
+		assertIsNonNullObject(other);
 
 		m_xCoordinate = other.getXcoordinate();
 		m_yCoordinate = other.getYcoordinate();
@@ -78,17 +77,19 @@ public class CartesianCoordinate extends AbstractCoordinate
 	/*-------------------------Setter----------------------------------------*/
 	
 	public void setXcoordinate(double xCoordinate) {
-		
+		assertIsNonNullObject(xCoordinate);
 		this.m_xCoordinate = xCoordinate;
 	}
 
 	public void setYcoordinate(double yCoordinate) {
 		
+		assertIsNonNullObject(yCoordinate);
 		this.m_yCoordinate = yCoordinate;
 	}
 
 	public void setZcoordinate(double zCoordinate) {
 		
+		assertIsNonNullObject(zCoordinate);
 		this.m_zCoordinate = zCoordinate;
 	}
 	
@@ -118,8 +119,7 @@ public class CartesianCoordinate extends AbstractCoordinate
 	@Override
 	public double getCartesianDistance(Coordinate other)
 	{
-		if (null == other)
-			throw new IllegalArgumentException("Coordinate must not be null!");
+		assertIsNonNullObject(other);
 		
 		CartesianCoordinate tmp = coordinateSubstraction(this, other.asCartesianCoordinates());
 		return Math.sqrt(Math.pow(tmp.getXcoordinate(), 2) + 
@@ -132,7 +132,7 @@ public class CartesianCoordinate extends AbstractCoordinate
 	 * 
 	 */
 	@Override
-	public SphericCoordinate asSphericCoordinate() {
+	public  SphericCoordinate asSphericCoordinate() {
 
 		double _radius = Math.sqrt(m_xCoordinate * m_xCoordinate + 
 					m_yCoordinate * m_yCoordinate + m_zCoordinate *m_zCoordinate );
@@ -154,12 +154,12 @@ public class CartesianCoordinate extends AbstractCoordinate
 	 * 
 	 */
 	@Override
-	public double getSpharicDistance(Coordinate other) {
-		
+	public double getSphericDistance(Coordinate other) {
+		assertIsNonNullObject(other);
 		return this.asSphericCoordinate().getDistance(other);
 	}
 	
-//-------------------------private helper functions----------------------------------------*/		
+//-------------------------private helper functions----------------------------------------		
 	/**
 	 *@method 
 	 *

@@ -42,7 +42,7 @@ public abstract class AbstractCoordinate implements Coordinate
 	public abstract CartesianCoordinate asCartesianCoordinates();
 	public abstract double getCartesianDistance(Coordinate other);
 	public abstract SphericCoordinate asSphericCoordinate();
-	public abstract double getSpharicDistance(Coordinate other);
+	public abstract double getSphericDistance(Coordinate other);
 	
 //----------------------Overrides----------------------------------------------
 	
@@ -50,8 +50,7 @@ public abstract class AbstractCoordinate implements Coordinate
 	@Override
 	public double getDistance(Coordinate other)
 	{
-		if (null == other)
-			throw new IllegalArgumentException("Coordinate must not be null");
+		assertIsNonNullObject(other);
 		
 		if (this instanceof CartesianCoordinate)
 			return this.getCartesianDistance(other);
@@ -62,8 +61,7 @@ public abstract class AbstractCoordinate implements Coordinate
 	@Override
 	public boolean isEqual(Coordinate other)
 	{
-		if (null == other)
-			throw new IllegalArgumentException("Coordinate must not be null");
+		assertIsNonNullObject(other);
 		
 		if (this instanceof CartesianCoordinate) 
 		{
@@ -72,7 +70,7 @@ public abstract class AbstractCoordinate implements Coordinate
 		}
 		else
 		{
-			double _distanceSpheric = this.getSpharicDistance(other);
+			double _distanceSpheric = this.getSphericDistance(other);
 			return isDoubleEqual(_distanceSpheric, 0d);
 		}
 	}
@@ -80,17 +78,14 @@ public abstract class AbstractCoordinate implements Coordinate
 	@Override
 	public boolean equals(Object o)
 	{
-		if ( null == o )
-			throw new IllegalArgumentException("Object must not be null");
+		assertIsNonNullObject(o);
 		
 		if (o instanceof Coordinate)
 			return isEqual((Coordinate) o);
 		
 		return false;
 	}
-
 	//-------------------------Private Helper----------------------------------
-	
 	/**
 	 * 
 	 * @methodtype compare
@@ -101,5 +96,11 @@ public abstract class AbstractCoordinate implements Coordinate
 		return (Math.abs(one - two) < EPSILON) ? true : false;
 	}
 	
+	//-------------------------Asserts----------------------------------------------
+	protected void assertIsNonNullObject(Object o) 
+	{
+		if (null == o)
+			throw new IllegalArgumentException("The given object is Null. Invalid Parameter");
+	}
 	
 }
