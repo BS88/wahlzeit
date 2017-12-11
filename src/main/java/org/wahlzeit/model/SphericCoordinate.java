@@ -29,8 +29,6 @@ package org.wahlzeit.model;
 
 public class SphericCoordinate extends AbstractCoordinate
 {
-	
-	
 //-------------------------Member----------------------------------------------	
 	
 	//Range from -90° to 90 °
@@ -105,20 +103,20 @@ public class SphericCoordinate extends AbstractCoordinate
 	
 	/*-------------------------Setter----------------------------------------*/
 
-	public void setRadius(double radius) {
+	public void setRadius(double radius) throws IllegalArgumentException {
 		
 		assertRadiusGreaterZero(radius);	
 		m_radius = radius;
 	}
 
-	public void setLatitude(double latitude) {
+	public void setLatitude(double latitude) throws IllegalArgumentException {
 		
 		assertLatitudeInRange(latitude);
 		m_latitude = latitude;
 	}
 
 
-	public void setLongtitude(double longtitude) {
+	public void setLongtitude(double longtitude) throws IllegalArgumentException {
 	
 		assertLongtitudeInRange(longtitude);
 		m_longtitude = longtitude;
@@ -131,7 +129,7 @@ public class SphericCoordinate extends AbstractCoordinate
 	 * 
 	 */
 	@Override
-	public CartesianCoordinate asCartesianCoordinates() {
+	public CartesianCoordinate asCartesianCoordinates() throws IllegalStateException {
 		
 		assertClassInvariants();
 		double _latRad  = Math.toRadians(m_latitude);
@@ -151,7 +149,7 @@ public class SphericCoordinate extends AbstractCoordinate
 	 * 
 	 */
 	@Override
-	public double getCartesianDistance(Coordinate other) {
+	public double getCartesianDistance(Coordinate other ) throws NullPointerException {
 		assertIsNonNullObject(other);
 		return this.asCartesianCoordinates().getCartesianDistance(other);
 	}
@@ -171,36 +169,55 @@ public class SphericCoordinate extends AbstractCoordinate
 	 * 
 	 */
 	@Override
-	public double getSphericDistance(Coordinate other) {
-		
+	public double getSphericDistance(Coordinate other) throws NullPointerException {		
 		assertIsNonNullObject(other);
 		
 		return this.asCartesianCoordinates().getCartesianDistance(other);
 	}
 	//-------------------------Assertion Methods-------------------------------
 	
-	private void assertClassInvariants() {
-		assertLatitudeInRange(m_latitude);
-		assertLongtitudeInRange(m_longtitude);
-		assertRadiusGreaterZero(m_radius);
+	protected void assertClassInvariants() throws IllegalStateException {
+		
+		String member= " ";
+		for (int i = 0; i < 3; i++) {
+		try {
+			if (i == 0) {
+				member = "Latitude";
+				assertLatitudeInRange(m_latitude);
+			}
+			else if (i == 1) {
+				member = "Longtitude";
+				assertLongtitudeInRange(m_longtitude);
+			}
+			else {
+				member = "Radius";
+				assertRadiusGreaterZero(m_radius);
+			}
+		}
+		catch (IllegalArgumentException exc) {
+			throw new IllegalStateException("Error. Member " + member 
+					+ ", has an invalid State.\n" );
+		}
+		}
 	}
-	private void assertRadiusGreaterZero(double radius) {
-		assertIsNonNullObject(radius);
+	private void assertRadiusGreaterZero(double radius) throws IllegalArgumentException {
+		assertIsValidDouble(radius);
 		if (radius < 0)
-			throw new IllegalStateException("Radius of an Spheric Coordinate can not be negative");
+			throw new IllegalArgumentException("Radius of an Spheric Coordinate can not be "
+					+ "negative. Value was" +radius+".");
 	}
 	
-	private void assertLatitudeInRange(double latitude) {
-		assertIsNonNullObject(latitude);
+	private void assertLatitudeInRange(double latitude) throws IllegalArgumentException {
+		assertIsValidDouble(latitude);
 		if (latitude < -90.0  || latitude > 90.0)
-			throw new IllegalStateException("Latitude of an Spheric Coordinate "
-					+ "must be within -90 ° to 90°.");
+			throw new IllegalArgumentException("Latitude of an Spheric Coordinate "
+					+ "must be within -90 ° to 90°. Value was : " +latitude+".");
 	}
 	
-	private void assertLongtitudeInRange(double longtitude) {
-		assertIsNonNullObject(longtitude);
+	private void assertLongtitudeInRange(double longtitude) throws IllegalArgumentException {
+		assertIsValidDouble(longtitude);
 		if(m_longtitude < -180 || m_longtitude > 180)
-			throw new IllegalStateException("Longtitude of an Spheric Coordinate "
-					+ "must be within -180 ° to 180°.");
+			throw new IllegalArgumentException("Longtitude of an Spheric Coordinate "
+					+ "must be within -180 ° to 180°. Value was : " +longtitude +"." );
 	}
 }

@@ -50,7 +50,6 @@ public class CartesianCoordinate extends AbstractCoordinate
 	
 	public CartesianCoordinate (CartesianCoordinate other) {
 		
-		assertIsNonNullObject(other);
 
 		m_xCoordinate = other.getXcoordinate();
 		m_yCoordinate = other.getYcoordinate();
@@ -76,20 +75,18 @@ public class CartesianCoordinate extends AbstractCoordinate
 	
 	/*-------------------------Setter----------------------------------------*/
 	
-	public void setXcoordinate(double xCoordinate) {
-		assertIsNonNullObject(xCoordinate);
+	public void setXcoordinate(double xCoordinate) throws IllegalArgumentException {
+		assertIsValidDouble(xCoordinate);
 		this.m_xCoordinate = xCoordinate;
 	}
 
-	public void setYcoordinate(double yCoordinate) {
-		
-		assertIsNonNullObject(yCoordinate);
+	public void setYcoordinate(double yCoordinate) throws IllegalArgumentException{
+		assertIsValidDouble(yCoordinate);
 		this.m_yCoordinate = yCoordinate;
 	}
 
-	public void setZcoordinate(double zCoordinate) {
-		
-		assertIsNonNullObject(zCoordinate);
+	public void setZcoordinate(double zCoordinate) throws IllegalArgumentException {
+		assertIsValidDouble(zCoordinate);
 		this.m_zCoordinate = zCoordinate;
 	}
 	
@@ -117,7 +114,7 @@ public class CartesianCoordinate extends AbstractCoordinate
 	 * 
 	 */ 
 	@Override
-	public double getCartesianDistance(Coordinate other)
+	public double getCartesianDistance(Coordinate other) throws NullPointerException
 	{
 		assertIsNonNullObject(other);
 		
@@ -139,22 +136,26 @@ public class CartesianCoordinate extends AbstractCoordinate
 		
 		double _rho = Math.toDegrees(Math.acos(m_zCoordinate/_radius));
 		double _phi = Math.toDegrees(Math.atan2(m_yCoordinate, m_xCoordinate));
+	
+		double []tmpValues = {_radius, _rho, _phi};
 		
-		if (Double.isNaN(_radius))
-			_radius = 0; 
-		if (Double.isNaN(_rho))
-			_rho = 0;
-		if (Double.isNaN(_phi))
-			_phi = 0;
-
-		return new SphericCoordinate(_rho, _phi, _radius);
+		for (int i = 0; i < 3; i++) {
+			
+			try{
+				assertIsValidDouble(tmpValues[i]);
+			}
+			catch (IllegalArgumentException exc) {
+				tmpValues[i]= 0;
+			}
+	}
+		return new SphericCoordinate(tmpValues[0], tmpValues[1], tmpValues[2]);
 	}
 	/**
 	 * Inherited  by AbstractCoordinate
 	 * 
 	 */
 	@Override
-	public double getSphericDistance(Coordinate other) {
+	public double getSphericDistance(Coordinate other) throws NullPointerException {
 		assertIsNonNullObject(other);
 		return this.asSphericCoordinate().getDistance(other);
 	}
@@ -171,5 +172,12 @@ public class CartesianCoordinate extends AbstractCoordinate
 		double z_diff = a.getZcoordinate()- b.getZcoordinate();
 		
 		return new CartesianCoordinate(x_diff, y_diff, z_diff);
+	}
+
+	@Override
+	protected void assertClassInvariants()
+	{
+		//Do Nothing
+		
 	}
 }

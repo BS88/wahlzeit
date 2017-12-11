@@ -30,14 +30,14 @@ package org.wahlzeit.model;
  */
 public class Location
 {
-	
 	private Coordinate 		m_coordinate 	= null;
 	private String			m_locationName 	= null;
-	
 	/**
 	 *
 	 */
-	public Location() { }
+	public Location(){
+		m_locationName = " ";
+	}
 	
 	/**
 	 *
@@ -49,7 +49,7 @@ public class Location
 	/**
 	 *
 	 */
-	public Location(Coordinate coordinate, String locationName) {
+	public Location(Coordinate coordinate, String locationName){
 		
 		this(coordinate);
 		
@@ -57,7 +57,7 @@ public class Location
 			m_locationName = locationName;
 	}
 	
-	// Getter and Setter ------------------------------------------------------
+//-------------------------public functions------------------------------------
 	
 	/**
 	 * @methodtype get
@@ -78,14 +78,26 @@ public class Location
 	/**
 	 * @methodtype set
 	 */
-	public void setCoordinate (Coordinate coordinate) {
+	public void setCoordinate (Coordinate coordinate) throws NullPointerException {
+		
 		m_coordinate = coordinate;
 	}
 	
 	/**
 	 * @methodtype set
 	 */
-	public void setLocationName(String locationName) {
+	public void setLocationName(String locationName) throws IllegalArgumentException {
+		assertIsValidName(locationName);
 		m_locationName = locationName;
+	}
+	
+//-------------------------Assertion Methods-----------------------------------
+	private void assertIsValidName(String name) throws IllegalArgumentException {
+		
+		//allow a word character [a-zA-Z_0-9] @the beginning
+		if (!name.matches("\\w.*"))
+			throw new IllegalArgumentException("The Location Name must begin with"
+					+ " an Word character [a-z] [A-Z] [_] [0-9] but received " + name.charAt(0));
+		
 	}
 }

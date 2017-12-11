@@ -43,6 +43,7 @@ public abstract class AbstractCoordinate implements Coordinate
 	public abstract double getCartesianDistance(Coordinate other);
 	public abstract SphericCoordinate asSphericCoordinate();
 	public abstract double getSphericDistance(Coordinate other);
+	protected abstract void assertClassInvariants();
 	
 //----------------------Overrides----------------------------------------------
 	
@@ -59,7 +60,7 @@ public abstract class AbstractCoordinate implements Coordinate
 	}
 
 	@Override
-	public boolean isEqual(Coordinate other)
+	public boolean isEqual(Coordinate other) throws NullPointerException
 	{
 		assertIsNonNullObject(other);
 		
@@ -78,7 +79,13 @@ public abstract class AbstractCoordinate implements Coordinate
 	@Override
 	public boolean equals(Object o)
 	{
-		assertIsNonNullObject(o);
+		//fix from hw 8
+		try {
+			assertIsNonNullObject(o);
+		}
+		catch (IllegalArgumentException exc) {
+			return false;
+		}
 		
 		if (o instanceof Coordinate)
 			return isEqual((Coordinate) o);
@@ -97,10 +104,17 @@ public abstract class AbstractCoordinate implements Coordinate
 	}
 	
 	//-------------------------Asserts----------------------------------------------
-	protected void assertIsNonNullObject(Object o) 
+	protected void assertIsNonNullObject(Object o) throws NullPointerException
 	{
 		if (null == o)
-			throw new IllegalArgumentException("The given object is Null. Invalid Parameter");
+			throw new NullPointerException("The given object is Null. Invalid Parameter");
+	}
+	protected void assertIsValidDouble(double value) throws IllegalArgumentException {
+		if (!Double.isFinite(value))
+			throw new IllegalArgumentException("The given Value is not finite!");
+		if (Double.isNaN(value))
+			throw new IllegalArgumentException("The given Value is not a Number!");
+		
 	}
 	
 }
