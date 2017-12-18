@@ -20,40 +20,34 @@
 
 package org.wahlzeit.model;
 
+import java.util.HashMap;
 
 /**
  * The Cartesian Coordinate Class is representing an 3-dimensional Vector for geographical 
  *  
  */
-public class CartesianCoordinate extends AbstractCoordinate
-{
-		
+public final class CartesianCoordinate extends AbstractCoordinate {
+	
+	private static final HashMap<Integer,CartesianCoordinate> 
+		usedCartesianCoordinates = new HashMap<>();
+	
+	private static final Object lock  = new Object();
+	
 	/*-------------------------Member----------------------------------------*/
-	private double m_xCoordinate = 0d;
-	private double m_yCoordinate = 0d;
-	private double m_zCoordinate = 0d;
+	private final double m_xCoordinate;
+	private final double m_yCoordinate;
+	private final double m_zCoordinate;
 	
 	/*-------------------------Ctors-----------------------------------------*/
-	
-	//Standard
-	public CartesianCoordinate() {
 		
-	}
-	
-	//specified with given Coordinates
-	public CartesianCoordinate (double x, double y, double z) {
+	//
+	private CartesianCoordinate (double x, double y, double z) {
 		
 		m_xCoordinate 	= x;
 		m_yCoordinate 	= y;
 		m_zCoordinate   = z;
-	}
-	
-	public CartesianCoordinate (CartesianCoordinate other) {
 		
-
-		m_xCoordinate = other.getXcoordinate();
-		m_yCoordinate = other.getYcoordinate();
-		m_zCoordinate = other.getZcoordinate();
+		assertClassInvariants();
 	}
 		
 	/*-------------------------Getter----------------------------------------*/
@@ -68,28 +62,11 @@ public class CartesianCoordinate extends AbstractCoordinate
 		return m_yCoordinate;
 	}
 
-	public double getZcoordinate(){
+	public double getZcoordinate() {
 		
 		return m_zCoordinate;
 	}
-	
-	/*-------------------------Setter----------------------------------------*/
-	
-	public void setXcoordinate(double xCoordinate) throws IllegalArgumentException {
-		assertIsValidDouble(xCoordinate);
-		this.m_xCoordinate = xCoordinate;
-	}
-
-	public void setYcoordinate(double yCoordinate) throws IllegalArgumentException{
-		assertIsValidDouble(yCoordinate);
-		this.m_yCoordinate = yCoordinate;
-	}
-
-	public void setZcoordinate(double zCoordinate) throws IllegalArgumentException {
-		assertIsValidDouble(zCoordinate);
-		this.m_zCoordinate = zCoordinate;
-	}
-	
+		
 	//-------------------------public functions------------------------------------------------
 	
 	/**
@@ -97,10 +74,8 @@ public class CartesianCoordinate extends AbstractCoordinate
 	 * 
 	 */
 	@Override
-	public CartesianCoordinate asCartesianCoordinates()
-	{
-		CartesianCoordinate _result = new CartesianCoordinate(this);
-		return _result;
+	public CartesianCoordinate asCartesianCoordinates() {
+		return this;
 	}
 	
 	/**
@@ -114,8 +89,8 @@ public class CartesianCoordinate extends AbstractCoordinate
 	 * 
 	 */ 
 	@Override
-	public double getCartesianDistance(Coordinate other) throws NullPointerException
-	{
+	public double getCartesianDistance(Coordinate other) {
+		
 		assertIsNonNullObject(other);
 		
 		CartesianCoordinate tmp = coordinateSubstraction(this, other.asCartesianCoordinates());
@@ -133,31 +108,59 @@ public class CartesianCoordinate extends AbstractCoordinate
 
 		double _radius = Math.sqrt(m_xCoordinate * m_xCoordinate + 
 					m_yCoordinate * m_yCoordinate + m_zCoordinate *m_zCoordinate );
+		assertIsValidDouble(_radius);
+		
+		if (_radius == 0.0) 
+			return SphericCoordinate.getCoordinate(0, 0, 0);
+		
 		
 		double _rho = Math.toDegrees(Math.acos(m_zCoordinate/_radius));
-		double _phi = Math.toDegrees(Math.atan2(m_yCoordinate, m_xCoordinate));
-	
-		double []tmpValues = {_radius, _rho, _phi};
+		assertIsValidDouble(_rho);
 		
-		for (int i = 0; i < 3; i++) {
-			
-			try{
-				assertIsValidDouble(tmpValues[i]);
-			}
-			catch (IllegalArgumentException exc) {
-				tmpValues[i]= 0;
-			}
-	}
-		return new SphericCoordinate(tmpValues[0], tmpValues[1], tmpValues[2]);
+		double _phi = Math.toDegrees(Math.atan2(m_yCoordinate, m_xCoordinate));
+		assertIsValidDouble(_phi);
+		
+		return SphericCoordinate.getCoordinate(_rho, _phi, _radius);
+		
 	}
 	/**
 	 * Inherited  by AbstractCoordinate
 	 * 
 	 */
 	@Override
-	public double getSphericDistance(Coordinate other) throws NullPointerException {
+	public double getSphericDistance(Coordinate other) {
+		
 		assertIsNonNullObject(other);
 		return this.asSphericCoordinate().getDistance(other);
+	}
+	
+	public static CartesianCoordinate getCoordinate(double x, double y, double z ) {
+		CartesianCoordinate coord = new CartesianCoordinate(x, y, z);
+		synchronized(lock) {
+			
+			if (usedCartesianCoordinates.containsKey(coord.hashCode())) 
+			{
+				return usedCartesianCoordinates.get(coord.hashCode());
+			}
+			else 
+			{
+				usedCartesianCoordinates.put(coord.hashCode(), coord);
+			}
+		}
+		return coord;
+	}
+	
+	
+	@Override
+	public int hashCode() {
+		// TODO Auto-generated method stub
+		return toString().hashCode();
+	}
+	
+	@Override
+	public String toString() {
+		
+		return "X = "+m_xCoordinate + "Y = " +m_yCoordinate + "Z = " +m_zCoordinate; 
 	}
 	
 //-------------------------private helper functions----------------------------------------		
@@ -175,9 +178,10 @@ public class CartesianCoordinate extends AbstractCoordinate
 	}
 
 	@Override
-	protected void assertClassInvariants()
-	{
-		//Do Nothing
+	protected void assertClassInvariants() {
 		
+		assertIsValidDouble(m_xCoordinate);
+		assertIsValidDouble(m_yCoordinate);
+		assertIsValidDouble(m_zCoordinate);
 	}
 }

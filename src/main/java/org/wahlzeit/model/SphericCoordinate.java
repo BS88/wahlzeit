@@ -22,33 +22,36 @@
 
 package org.wahlzeit.model;
 
+import java.util.HashMap;
+
 /**
  * The SphericCoordinate Class represents a  specific implementation of Coordinates.
  * inspired by: // source https://de.wikipedia.org/wiki/Kugelkoordinaten
  */
 
-public class SphericCoordinate extends AbstractCoordinate
-{
+public final class SphericCoordinate extends AbstractCoordinate {
+	
+	
+	// Cache for used Coordinates
+	private final static HashMap<Integer,SphericCoordinate> coordinateCache = new HashMap<>();
+	
+	private static final Object lock  = new Object();
+	
 //-------------------------Member----------------------------------------------	
 	
 	//Range from -90° to 90 °
-	private double m_latitude 	= 0.0;
+	private final double m_latitude ;
 	
 	//Range from -180° to 180°
-	private double m_longtitude = 0.0;
+	private final double m_longtitude;
 	
 	// Range greater than Zero
-	private double m_radius 	= 0.0;
+	private final double m_radius ;
 	
 //-------------------------Ctors-----------------------------------------------
 	
 	
-	public SphericCoordinate() {
-		
-		assertClassInvariants();
-	}
-	
-	public SphericCoordinate(double latitude, double longtitude, double radius) {
+	private SphericCoordinate(double latitude, double longtitude, double radius) {
 		
 		assertLatitudeInRange(latitude);
 		assertLongtitudeInRange(longtitude);
@@ -58,27 +61,6 @@ public class SphericCoordinate extends AbstractCoordinate
 		m_longtitude = longtitude;
 		m_radius 	 = radius;
 		
-		assertClassInvariants();
-	}
-	
-	public SphericCoordinate(Coordinate other) {
-		
-		assertIsNonNullObject(other);
-		
-		if (other instanceof SphericCoordinate)
-		{
-			SphericCoordinate tmp = (SphericCoordinate) other;
-			
-			m_latitude   = tmp.getLatitude();
-			m_longtitude = tmp.getLongtitude();
-			m_radius	 = tmp.m_radius;
-		}
-		else 
-		{
-			m_latitude	 	= other.asSphericCoordinate().getLatitude();
-			m_longtitude	= other.asSphericCoordinate().getLongtitude();
-			m_radius 		= other.asSphericCoordinate().getRadius();
-		}
 		assertClassInvariants();
 	}
 //-------------------------Getter----------------------------------------------
@@ -96,33 +78,30 @@ public class SphericCoordinate extends AbstractCoordinate
 		return m_latitude;
 	}
 
-	public double getLongtitude(){
+	public double getLongtitude() {
 		
 		return m_longtitude;
 	}
 	
-	/*-------------------------Setter----------------------------------------*/
-
-	public void setRadius(double radius) throws IllegalArgumentException {
+	public static SphericCoordinate getCoordinate(double latitude, double longtitude, double radius) {
 		
-		assertRadiusGreaterZero(radius);	
-		m_radius = radius;
-	}
-
-	public void setLatitude(double latitude) throws IllegalArgumentException {
+		SphericCoordinate coord = new SphericCoordinate(latitude, longtitude, radius);
 		
-		assertLatitudeInRange(latitude);
-		m_latitude = latitude;
+		synchronized (lock)
+		{
+			if (coordinateCache.containsKey(coord.hashCode())) 
+			{
+				return coordinateCache.get(coord.hashCode());
+			}
+			else 
+			{
+				coordinateCache.put(coord.hashCode(), coord);
+			}
+		}
+		return coord;
 	}
-
-
-	public void setLongtitude(double longtitude) throws IllegalArgumentException {
 	
-		assertLongtitudeInRange(longtitude);
-		m_longtitude = longtitude;
-	}
-
-	//-------------------------public functions------------------------------------------------
+//-------------------------public functions------------------------------------------------
 
 	/**
 	 * Inherited  by AbstractCoordinate
@@ -140,8 +119,7 @@ public class SphericCoordinate extends AbstractCoordinate
 		double _zCoord = m_radius * Math.cos(_latRad);
 		assertClassInvariants();
 		
-		return new CartesianCoordinate(_xCoord, _yCoord, _zCoord);
-		
+		return CartesianCoordinate.getCoordinate(_xCoord, _yCoord, _zCoord);
 	}
 	
 	/**
@@ -149,7 +127,7 @@ public class SphericCoordinate extends AbstractCoordinate
 	 * 
 	 */
 	@Override
-	public double getCartesianDistance(Coordinate other ) throws NullPointerException {
+	public double getCartesianDistance(Coordinate other ) {
 		assertIsNonNullObject(other);
 		return this.asCartesianCoordinates().getCartesianDistance(other);
 	}
@@ -159,9 +137,9 @@ public class SphericCoordinate extends AbstractCoordinate
 	 * 
 	 */
 	@Override
-	public SphericCoordinate asSphericCoordinate() {	
-		SphericCoordinate _result = new SphericCoordinate(this);
-		return _result;
+	public SphericCoordinate asSphericCoordinate() {
+	
+		return this;
 	}
 	
 	/**
@@ -169,14 +147,28 @@ public class SphericCoordinate extends AbstractCoordinate
 	 * 
 	 */
 	@Override
-	public double getSphericDistance(Coordinate other) throws NullPointerException {		
+	public double getSphericDistance(Coordinate other) {		
 		assertIsNonNullObject(other);
 		
 		return this.asCartesianCoordinates().getCartesianDistance(other);
 	}
+	
+	@Override
+	public int hashCode() {
+		// TODO Auto-generated method stub
+		return toString().hashCode();
+	}
+	
+	@Override
+	public String toString() {
+		
+		return "Latitude = " +m_latitude+ "Longtitude = " +m_longtitude+
+				"Radius = " +m_radius; 
+	}
+	
 	//-------------------------Assertion Methods-------------------------------
 	
-	protected void assertClassInvariants() throws IllegalStateException {
+	protected void assertClassInvariants() throws IllegalArgumentException {
 		
 		String member= " ";
 		for (int i = 0; i < 3; i++) {

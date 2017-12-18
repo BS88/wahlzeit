@@ -21,18 +21,19 @@
 
 package org.wahlzeit.model;
 
+import java.util.HashMap;
+
 /**
  * A generic implementation of Coordinates.
  * Subclasses provide the specialized geographic implementation.
  */
-public abstract class AbstractCoordinate implements Coordinate
-{
+public abstract class AbstractCoordinate implements Coordinate {
 	/**
 	 * Highest Error Barrier Epsilon.
 	 * 
 	 */
 	public static final double EPSILON = 1.0E-7;
-
+	
 //----------------Abstract functions-------------------------------------------
 	/**
 	 * 
@@ -49,8 +50,7 @@ public abstract class AbstractCoordinate implements Coordinate
 	
 	
 	@Override
-	public double getDistance(Coordinate other)
-	{
+	public double getDistance(Coordinate other) {
 		assertIsNonNullObject(other);
 		
 		if (this instanceof CartesianCoordinate)
@@ -58,10 +58,9 @@ public abstract class AbstractCoordinate implements Coordinate
 		else
 			return this.asCartesianCoordinates().getCartesianDistance(other);
 	}
-
+	
 	@Override
-	public boolean isEqual(Coordinate other) throws NullPointerException
-	{
+	public boolean isEqual(Coordinate other) {
 		assertIsNonNullObject(other);
 		
 		if (this instanceof CartesianCoordinate) 
@@ -77,13 +76,14 @@ public abstract class AbstractCoordinate implements Coordinate
 	}
 	
 	@Override
-	public boolean equals(Object o)
-	{
-		//fix from hw 8
-		try {
+	public boolean equals(Object o) {
+		
+		try
+		{
 			assertIsNonNullObject(o);
 		}
-		catch (IllegalArgumentException exc) {
+		catch (IllegalArgumentException exc)
+		{
 			return false;
 		}
 		
@@ -92,22 +92,22 @@ public abstract class AbstractCoordinate implements Coordinate
 		
 		return false;
 	}
+			
 	//-------------------------Private Helper----------------------------------
 	/**
 	 * 
 	 * @methodtype compare
 	 * 
 	 */
-	private boolean isDoubleEqual(double one, double two) 
-	{
+	private boolean isDoubleEqual(double one, double two) {
+		
 		return (Math.abs(one - two) < EPSILON) ? true : false;
 	}
 	
 	//-------------------------Asserts----------------------------------------------
-	protected void assertIsNonNullObject(Object o) throws NullPointerException
-	{
+	protected void assertIsNonNullObject(Object o) {
 		if (null == o)
-			throw new NullPointerException("The given object is Null. Invalid Parameter");
+			throw new IllegalArgumentException("The given object is Null. Invalid Parameter");
 	}
 	protected void assertIsValidDouble(double value) throws IllegalArgumentException {
 		if (!Double.isFinite(value))

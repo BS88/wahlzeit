@@ -28,57 +28,35 @@ public class SphericCoordinateTest
 	@Test
 	public void testSphericCoordinateCreation() {
 	
-	SphericCoordinate one = new SphericCoordinate();
-	SphericCoordinate two = new SphericCoordinate();
-			
-
-	SphericCoordinate _resultOne = new SphericCoordinate(1.0,2.0,3.0);
-	SphericCoordinate _resultTwo = new SphericCoordinate(2.0,3.0,4.0);
+	SphericCoordinate one = SphericCoordinate.getCoordinate(0, 0, 0);
+	SphericCoordinate two = SphericCoordinate.getCoordinate(0, 0, 0);
 	
-	assertEquals(one, new SphericCoordinate());
-	assertEquals(two, new SphericCoordinate(0,0,0));
+
+	SphericCoordinate _resultOne = SphericCoordinate.getCoordinate(1.0,2.0,3.0);
+	SphericCoordinate _resultTwo = SphericCoordinate.getCoordinate(2.0,3.0,4.0);
+	
+	assertEquals(one, two);
 			
-	assertEquals(_resultOne, new SphericCoordinate(_resultOne));
-	assertTrue(_resultOne.equals(_resultOne));
-	assertTrue(_resultOne.equals(new SphericCoordinate(1,2,3)));
+	assertEquals(_resultOne, SphericCoordinate.getCoordinate(1.0,2.0,3.0));
 	assertFalse(_resultOne.equals(_resultTwo));
 			
-		}
-		@Test
-		public void testSphericCoordinateTestGetterandSetter() {
-			
-			SphericCoordinate one = new SphericCoordinate();
-			SphericCoordinate two = new SphericCoordinate();
-		
-			one.setLatitude(40);
-			one.setLongtitude(-50);
-			one.setRadius(10);
-			
-			two.setLatitude(89);
-			two.setLongtitude(-100);
-			two.setRadius(15);
-			
-			
-			assertEquals(40, one.getLatitude(), 1E-7);
-			assertEquals(-100, two.getLongtitude(), 1E-7);
-			assertFalse(11 == one.getRadius());
+	}
 
-		}
-		@Test
-		public void testDistance() {
+	@Test
+	public void testDistance() {
 			
-			SphericCoordinate one = new SphericCoordinate(54,45,1.73);
-			SphericCoordinate two = new SphericCoordinate(54,45,1.73);
+			SphericCoordinate one = SphericCoordinate.getCoordinate(54,45,1.73);
+			SphericCoordinate two = SphericCoordinate.getCoordinate(54,45,1.73);
 			
 			assertEquals(one.getDistance(two),0,1E-7);
-			assertEquals(two.getDistance(new SphericCoordinate()),1.73,1E-7 );
+			assertEquals(two.getDistance(SphericCoordinate.getCoordinate(0,0,0)),1.73,1E-7 );
 			
-			one.setLatitude(68.75);
-			one.setLongtitude(116.31);
-			one.setRadius(4.78);
+
 		
+			SphericCoordinate three = SphericCoordinate.getCoordinate(68.75,116.31 ,4.78);
+			
 			assertEquals(Math.sqrt(Math.pow(-2, 2)+Math.pow(4,2)+Math.pow(1.7, 2)),
-					one.getDistance(new SphericCoordinate()),1E-1);	
+					three.getDistance(SphericCoordinate.getCoordinate(0,0,0)),1E-1);	
 		}
 	}
 
