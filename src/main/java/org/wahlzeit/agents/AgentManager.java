@@ -20,11 +20,17 @@
 
 package org.wahlzeit.agents;
 
+import org.wahlzeit.annotation.PatternInstance;
 import org.wahlzeit.services.LogBuilder;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
+
+@PatternInstance (
+	name		 ="Singelton",
+	participants =""
+)
 
 /**
  * The AgentManager singleton manages all Agent instances.

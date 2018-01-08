@@ -24,11 +24,16 @@ package org.wahlzeit.model;
 
 import java.util.HashMap;
 
+import org.wahlzeit.annotation.PatternInstance;
+
 /**
  * The SphericCoordinate Class represents a  specific implementation of Coordinates.
  * inspired by: // source https://de.wikipedia.org/wiki/Kugelkoordinaten
  */
-
+@PatternInstance (
+		name 		 = "Template Method",
+		participants = {"ConcreteClass"}	
+)
 public final class SphericCoordinate extends AbstractCoordinate {
 	
 	

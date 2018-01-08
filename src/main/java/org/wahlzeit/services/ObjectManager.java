@@ -27,10 +27,13 @@ import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.wahlzeit.annotation.PatternInstance;
+
 /**
  * An ObjectManager creates/reads/updates/deletes Persistent (objects) from Google Datastore.
  * It is an abstract superclass that relies on an inheritance interface and the Persistent interface.
  */
+
 public abstract class ObjectManager {
 
 	/**

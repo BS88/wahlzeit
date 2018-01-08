@@ -22,9 +22,15 @@ package org.wahlzeit.model;
 
 import java.util.logging.Logger;
 
+import org.wahlzeit.annotation.PatternInstance;
+
 /**
  * A photo represents a user-provided (uploaded) photo.
  */
+@PatternInstance (
+	name 		 = "Abstract Factory",
+	participants = "ConcreteFactory"
+)
 public class FootballPhotoFactory extends PhotoFactory
 {
 	

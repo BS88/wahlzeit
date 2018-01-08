@@ -22,10 +22,16 @@ package org.wahlzeit.model;
 
 import java.util.HashMap;
 
+import org.wahlzeit.annotation.PatternInstance;
+
 /**
  * The Cartesian Coordinate Class is representing an 3-dimensional Vector for geographical 
  *  
  */
+@PatternInstance (
+	name 		 = "Template Method",
+	participants = {"ConcreteClass"}	
+	)
 public final class CartesianCoordinate extends AbstractCoordinate {
 	
 	private static final HashMap<Integer,CartesianCoordinate> 
@@ -152,14 +158,14 @@ public final class CartesianCoordinate extends AbstractCoordinate {
 	
 	
 	@Override
-	public int hashCode() {
-		// TODO Auto-generated method stub
+	public int hashCode()
+	{
 		return toString().hashCode();
 	}
 	
 	@Override
 	public String toString() {
-		
+			
 		return "X = "+m_xCoordinate + "Y = " +m_yCoordinate + "Z = " +m_zCoordinate; 
 	}
 	

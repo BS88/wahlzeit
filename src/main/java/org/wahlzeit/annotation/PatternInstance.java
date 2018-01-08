@@ -18,38 +18,11 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-package org.wahlzeit.model;
 
-import java.util.logging.Logger;
+package org.wahlzeit.annotation;
 
-import org.wahlzeit.annotation.PatternInstance;
-
-/**
- * 
- */
-@PatternInstance (
-	name 		 = "Singelton",
-	participants = {""}	
-)
-public class FootballPhotoManager extends PhotoManager
+public @interface PatternInstance
 {
-	/*-------------------------Member----------------------------------------*/
-	private final static Logger log = Logger.getLogger(FootballPhotoManager.class.getName());
-	
-	protected static FootballPhotoManager instance = new FootballPhotoManager();
-	
-
-	protected FootballPhotoManager() 
-	{
-		super();
-		photoTagCollector = FootballPhotoFactory.getInstance().createPhotoTagCollector();
-	}
-	public static FootballPhotoManager getInstance() 
-	{
-		if (instance == null) 
-			instance = new FootballPhotoManager();
-		return instance;
-	}
-
-	
+	String name();
+	String []participants();
 }

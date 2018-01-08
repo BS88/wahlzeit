@@ -1,6 +1,8 @@
 package org.wahlzeit.model;
 
 
+import org.wahlzeit.annotation.PatternInstance;
+
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Subclass;
 
@@ -11,6 +13,11 @@ import com.googlecode.objectify.annotation.Subclass;
  */
 @Entity
 @Subclass(index = true)
+
+@PatternInstance (	
+		name		 ="Abstract Factory",
+		participants = "ConcretProdukt"
+)
 public class FootballPhoto extends Photo
 {
 

@@ -21,12 +21,16 @@
 
 package org.wahlzeit.model;
 
-import java.util.HashMap;
+import org.wahlzeit.annotation.PatternInstance;
 
 /**
  * A generic implementation of Coordinates.
  * Subclasses provide the specialized geographic implementation.
  */
+@PatternInstance (
+	name 		 = "Template Method",
+	participants = {"Abstract Class"}	
+)
 public abstract class AbstractCoordinate implements Coordinate {
 	/**
 	 * Highest Error Barrier Epsilon.
