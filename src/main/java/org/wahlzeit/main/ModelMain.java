@@ -20,6 +20,7 @@
 
 package org.wahlzeit.main;
 
+import org.wahlzeit.model.FootballManager;
 import org.wahlzeit.model.FootballPhotoFactory;
 import org.wahlzeit.model.FootballPhotoManager;
 import org.wahlzeit.model.GlobalsManager;
@@ -61,6 +62,9 @@ public abstract class ModelMain extends AbstractMain {
 
 		log.config(LogBuilder.createSystemMessage().addAction("load user").toString());
 		UserManager.getInstance().init();
+		
+		log.config(LogBuilder.createSystemMessage().addAction("load Football's and FootballTypes").toString());
+		FootballManager.getInstance().init();
 
 //		log.config(LogBuilder.createSystemMessage().addAction("init PhotoFactory").toString());
 //		PhotoFactory.initialize();
@@ -92,6 +96,8 @@ public abstract class ModelMain extends AbstractMain {
 		PhotoCaseManager.getInstance().savePhotoCases();
 		FootballPhotoManager.getInstance().savePhotos();
 		UserManager.getInstance().saveClients();
+		FootballManager.getInstance().saveFootballs();
+		FootballManager.getInstance().saveFootballTypes();
 		GlobalsManager.getInstance().saveGlobals();
 	}
 

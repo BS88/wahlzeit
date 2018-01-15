@@ -31,52 +31,47 @@ import org.wahlzeit.annotation.PatternInstance;
 	name 		 = "Abstract Factory",
 	participants = "ConcreteFactory"
 )
-public class FootballPhotoFactory extends PhotoFactory
-{
+public class FootballPhotoFactory extends PhotoFactory {
 	
 	private static final Logger log = Logger.getLogger(FootballPhotoFactory.class.getName());
-	
 	private static FootballPhotoFactory instance = null;
+
+
+//-----------------Ctor--------------------------------------------------------
+	
+	private FootballPhotoFactory () {}
+
+//-----------------Public Methods----------------------------------------------
 	
 	public static synchronized FootballPhotoFactory getInstance() {
 		
-		if (null == instance)
-		{
+		if (null == instance) {
 			instance = new FootballPhotoFactory();
+			
 		}
 		return instance;		
 	}
-	/*
-	 * @methodtype factory
-	 * 
-	 * Create new Photos with different Properties
-	 * 
-	 * */
 	
-	public FootballPhoto createPhoto() 
-	{
+	public FootballPhoto createPhoto() {
+		
 		return new FootballPhoto();
 	}
 	
 	
-	public FootballPhoto createPhoto(PhotoId id) 
-	{
+	public FootballPhoto createPhoto(PhotoId id) {
+		
 		return new FootballPhoto(id);
 	}
 	
-	public FootballPhoto createPhoto(PhotoId id, FootballProperties props) 
-	{
-		return new FootballPhoto(id, props);
+	public FootballPhoto createPhoto(PhotoId id, Football football) {
+		
+		return new FootballPhoto(id, football);
 	}
 	
-	public FootballPhoto createPhoto(FootballProperties props) 
-	{
-		return new FootballPhoto(props);
+	public FootballPhoto createPhoto(Football football) {
+		
+		return new FootballPhoto(football);
 	}
 
 //----------------------------------------------------End of methodtype factory --------------------------------
-	
-	
-	
-
 }

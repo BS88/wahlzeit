@@ -54,7 +54,7 @@ public class GlobalsManager extends ObjectManager {
 	}
 
 	/**
-	 * @methodtype boolean querry
+	 * @methodtype boolean query
 	 */
 	private boolean hasGlobals() {
 		return ObjectifyService.run(new Work<Boolean>() {

@@ -25,7 +25,7 @@ import java.util.logging.Logger;
 import org.wahlzeit.annotation.PatternInstance;
 
 /**
- * 
+ * Football PhotManager subclass, a specific Photomanager
  */
 @PatternInstance (
 	name 		 = "Singelton",

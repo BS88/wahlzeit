@@ -23,15 +23,15 @@ public class FootballPhoto extends Photo
 
 //--------------------------Ctors----------------------------------------------
 	
-	private FootballProperties m_properties = null;
+	private Football m_football;
 	
 	/**
 	 * @methodtype constructor
 	 * Default
 	 */
 	
-	public FootballPhoto() 
-	{
+	public FootballPhoto() {
+		
 		super();	
 	}
 	
@@ -39,18 +39,18 @@ public class FootballPhoto extends Photo
 	 * @methodtype constructor
 	 * 
 	 */
-	public FootballPhoto(FootballProperties props) 
-	{
+	public FootballPhoto(Football football) {
+		
 		this();
-		m_properties = props;
+		m_football = football;
 	}
 
 	/**
 	 * @methodtype constructor
 	 * 
 	 */
-	public FootballPhoto(PhotoId id) 
-	{
+	public FootballPhoto(PhotoId id) {
+		
 		super(id);
 	}
 	
@@ -58,29 +58,28 @@ public class FootballPhoto extends Photo
 	 * @methodtype constructor
 	 * 
 	 */
-	public FootballPhoto(PhotoId id, FootballProperties props) 
-	{
+	public FootballPhoto(PhotoId id, Football football) {
+		
 		this(id);
-		m_properties = props;
+		m_football = football;
 	}
 
-//-------------------------------Getter&Setter---------------------------------
+//-----------------Getter&Setter-----------------------------------------------
 	
 	/**
 	 * @methodtype get
 	 */
-	public FootballProperties getProperties()
+	public Football getFootball()
 	{
-		return m_properties;
+		return m_football;
 	}
 	
 	/**
 	 * @methodtype set
 	 * 
 	 * */
-	public void setProperties(FootballProperties props)
+	public void setProperties(Football football)
 	{
-		this.m_properties = props;
+		m_football = football;
 	}
-	
 }
