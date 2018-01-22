@@ -18,7 +18,55 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-
+/**
+ * 	ADAP-CW 13 
+ * 
+ *  ===============Sequence of Methods which leads to a new Object=================================
+ *  new Football Object
+ * 
+ * 	-> --FootballManager--
+ * 			
+ * 		->	FootballManager.getInstance() ------> returns the Singelton instance 
+ * 			of the manager, which can create Objects
+ * 
+ * 			-> (Within FootballManager) createFootball (String footballName, String footballType)
+ * 			
+ * 				-> type t = TypesMemory.getType(footballType)
+ * 						
+ * 					->	Football new  = t.createFootball(footballName) 
+ * 				
+ * 						-> (Within FootballType) Football createFootball (String name)
+ * 						
+ * 							-> return new Football(FootballType type , String name)
+ * 
+ * 
+ * ================Six Tuple of Object Creation ===================================================
+ * 
+ * 		1. Delegation
+ * 
+ * 			---> delegating to FootballManager and then to FootballType
+ * 
+ * 		2. Selection
+ * 
+ * 			---> on the spot
+ * 
+ * 		3. Configuration
+ * 
+ * 			---> No Configuration
+ * 
+ * 		4. Instantiation
+ * 
+ * 			---> in-code
+ * 
+ * 		5. Initialization
+ * 
+ * 			---> by-fixed-signature
+ * 
+ * 		6. Building
+ * 			
+ * 			---> default
+ * 
+ * */
 
 package org.wahlzeit.model;
 
